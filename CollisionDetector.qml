@@ -2,6 +2,8 @@ import QtQuick 2.0
 
 Item {
 
+    // NON WORKING FILE - TODO : FIND OTHER WAY OF DOING COLLISION
+
     function isCollisionBetween(rec1, rec2){
 
         var edges1 = new Array(360);
