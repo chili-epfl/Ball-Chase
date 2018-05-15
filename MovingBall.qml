@@ -16,7 +16,7 @@ Item {
     Rectangle {
 
         id: currentBall
-        radius: rad
+        radius: 100
         width: size
         height: size
         color : colour
@@ -56,7 +56,7 @@ Item {
 
             currentBall.x += x * coeff
             currentBall.y += y * coeff
-            currentBall.rotation += rot
+            currentBall.rotation += 0.1
 
             var xCenter = window.width / 2
 
@@ -121,8 +121,12 @@ Item {
 
             }
 
-            //            if(coll.isCollisionBetween(player.body, currentBall))
-            //                console.log("Collision")
+                        if(coll.isCollisionBetween(player.body, currentBall)) {
+                            console.log("You are dead !")
+                            player.body.x = 0
+                            player.body.y = 0
+
+                        }
 
         }
     }

@@ -16,9 +16,9 @@ Item {
     Repeater{
 
         id: repeat
-        model: 60
+        model: 1
 
-        MovingBall {size: 50+index; colour: "blue";repeatTime: 1 + index / 12;rad: index/5; rot:index/40}
+        MovingBall {size: 80+index; colour: "blue";repeatTime: 1 + index / 12;rad: index/5}
 
 
     }
@@ -36,7 +36,7 @@ Item {
 
     Rectangle {
 
-        visible: false
+        visible: true
         width: 80
         height: 30
 
@@ -55,7 +55,7 @@ Item {
         property int pointer : 0
         property int pointerColor : 0
 
-        interval: 50
+        interval: 1000
         repeat : true
 
         onTriggered: {
@@ -82,6 +82,12 @@ Item {
                 pointerColor = 0
 
             repeat.itemAt(pointer).current.color = colors[pointerColor]
+
+            if(minutes == 0 && seconds == 1) {
+                player.size = 60
+                player.body.x = window.width / 2 - player.body.width / 2
+                player.body.y = window.height / 2 - player.body.height / 2
+            }
 
 
 

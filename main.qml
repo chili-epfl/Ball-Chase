@@ -6,10 +6,10 @@ ApplicationWindow {
 
     id: window
     visible: true
-    width: 860
-    height: 860
+    width: 850
+    height: 850
     title: qsTr("Ball escape")
-    color: "black"
+    //color: "black"
 
     Button {
 
@@ -42,9 +42,7 @@ ApplicationWindow {
 
             player.focus = true
 
-            player.body.size = 60
-
-            player.body.visible = false
+           // player.body.visible = false
 
 
         }
