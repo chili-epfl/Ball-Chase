@@ -4,10 +4,11 @@ import QtQuick 2.0
 Item {
 
     signal start
-    property int lifeAmount : 3
+    property int lifeAmount : 5
     property Repeater repeater: repeat
     property Rectangle chrono : chrono
     property Rectangle lifesRec : lifesRectangle
+    property list<MovingBall> balls
 
     function startTimer() {
 
@@ -32,6 +33,7 @@ Item {
 
             repeat.itemAt(a).launch()
             repeat.itemAt(a).current.visible = true
+            balls[a] = repeat.itemAt(a)
 
         }
 
@@ -118,9 +120,9 @@ Item {
 
                 event.initPlayer(player)
 
-            if(minutes == 0 && seconds == 30) {
+            if(minutes == 0 && seconds == 10) {
 
-                event.addBall(this)
+                event.addBall()
             }
 
 

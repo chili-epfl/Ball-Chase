@@ -10,7 +10,16 @@ Item {
 
     }
 
-    function addBall(game) {
+    function addBall() {
+
+        var component = Qt.createComponent("MovingBall.qml");
+
+        if (component.status === Component.Ready)
+            component.createObject(null, {"size" : 80,"colour":"blue","repeatTime":5,"rad":5});
+
+        component.launch()
+        component.current.visible = true
+
 
     }
 

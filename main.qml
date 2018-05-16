@@ -20,12 +20,21 @@ ApplicationWindow {
         width: 150
         height: 100
         visible: true
-        text: "Play"
-        font.pointSize: 20
-        font.bold: true
 
-        x: window.width / 2 - width/2- width * 1.5
-        y: window.height / 2 - height / 2
+        Text {
+
+            id: playText
+            anchors.horizontalCenter: playButton.horizontalCenter
+            font.pointSize: 40
+            font.bold: true
+            text: "Play"
+            color: "black"
+
+        }
+
+
+        x: window.width / 2 - width/2
+        y: window.height / 2 - height
 
         onClicked: game.start()
     }
@@ -37,15 +46,21 @@ ApplicationWindow {
 
         Rectangle{id:optionsColor;anchors.fill:parent; visible:true}
 
-        width: 150
-        height: 100
+        width: 200
+        height: 50
         visible: true
-        text: "Options"
-        font.pointSize: 20
-        font.bold: true
 
-        x: window.width / 2 - width/2 + width * 1.5
-        y: window.height / 2 - height / 2
+        Text {
+            id: optionText
+            anchors.horizontalCenter: options.horizontalCenter
+            font.pointSize: 30
+            text: "Options"
+            color: "black"
+
+        }
+
+        x: window.width / 2 - width/2
+        y: window.height / 2
 
         onClicked: {
 
@@ -57,8 +72,9 @@ ApplicationWindow {
 
     Rectangle {
 
-        property Text text : name
         id: optionsMenu
+
+        property Text text : name
         visible: false
         x: window.width /2 - width/2
         y: window.height /2 - height/2
@@ -86,18 +102,22 @@ ApplicationWindow {
                 window.color = "black"
                 optionsMenu.visible = false
                 playButton.visible = true
+                playText.color = "white"
                 options.visible = true
 
                 optionsMenu.color = "black"
-                optionsMenu.text.color = "blue"
+                optionsMenu.text.color = "white"
 
                 game.chrono.color = "black"
                 game.lifesRec.color = "black"
 
                 player.body.color = "white"
 
-                options.optionsColor.color = "blue"
-                playButton.playColor.color = "blue"
+                optionText.color = "white"
+                playText.color = "white"
+
+                optionsColor.color = "black"
+                playColor.color = "black"
 
 
             }
@@ -124,8 +144,12 @@ ApplicationWindow {
 
                 player.body.color = "black"
 
-                options.optionsColor.color = "black"
-                playButton.playColor.color = "black"
+                optionText.color = "black"
+                playText.color = "black"
+
+                optionsColor.color = "white"
+                playColor.color = "white"
+
 
             }
 
@@ -143,6 +167,8 @@ ApplicationWindow {
 
             playButton.width = 0
             options.width = 0
+            optionText.visible = false
+            playText.visible = false
 
             window.update()
 

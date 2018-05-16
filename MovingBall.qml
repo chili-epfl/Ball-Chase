@@ -166,6 +166,10 @@ Item {
 
         onTriggered: {
 
+            if(current == 4)
+                player.speed = 0.25
+
+
             respawnTitle.visible = true
             restart.interval = 1000;
 
@@ -181,7 +185,6 @@ Item {
 
                 respawnTitle.visible = false
 
-                player.speed = 0.25
             }
 
             else     current--
