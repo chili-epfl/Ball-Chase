@@ -12,6 +12,7 @@ Item {
     property int repeatTime : 1
     property int rad : 0
     property int rot : 0
+    property Timer ballMovement : ballMovement
 
     Rectangle {
 
@@ -33,21 +34,22 @@ Item {
         xCoords = Math.cos(Math.PI*angle/180)
         yCoords = -Math.sin(Math.PI*angle/180)
 
-        launchTimer.x = xCoords;
-        launchTimer.y = yCoords;
-        launchTimer.lastAngle = angle
-        launchTimer.running = true
-        launchTimer.repeat = true
+        ballMovement.x = xCoords;
+        ballMovement.y = yCoords;
+        ballMovement.lastAngle = angle
+        ballMovement.running = true
+        ballMovement.repeat = true
 
     }
 
     Timer {
 
+
         property double x : 0
         property double y : 0
         property double lastAngle : 0
 
-        id: launchTimer
+        id: ballMovement
         interval: repeatTime
 
         onTriggered: {
@@ -121,12 +123,113 @@ Item {
 
             }
 
-                        if(coll.isCollisionBetween(player.body, currentBall)) {
-                            console.log("You are dead !")
-                            player.body.x = 0
-                            player.body.y = 0
+            if(coll.isCollisionBetween(player.body, currentBall)) {
+                console.log("You are dead !")
+                lifeAmount--
 
-                        }
+
+
+                player.body.x = window.width / 2 - player.body.width / 2
+                player.body.y = window.height / 2 - player.body.height / 2
+
+
+                for(var a = 0; a<game.repeater.model; a++)
+                    game.repeater.itemAt(a).ballMovement.running = false
+
+                if(lifeAmount == 0) {
+                    chrono.visible = false
+                    lifesRectangle.visible = false
+                    endTitle.visible = true
+
+                    for(var b = 0; b<game.repeater.model; b++)
+                        game.repeater.itemAt(b).current.visible = false
+                }
+
+                else
+                    restart.running = true
+
+
+
+            }
+
+        }
+    }
+
+    Timer {
+
+        property int current: 4
+
+        id: restart
+        running: false
+        repeat: true
+        interval: 10
+
+        onTriggered: {
+
+            respawnTitle.visible = true
+            restart.interval = 1000;
+
+            if(current == 1) {
+
+
+                current = 4
+                running = false
+                interval = 10
+
+                for(var a = 0; a<game.repeater.model; a++)
+                    game.repeater.itemAt(a).ballMovement.running = true
+
+                respawnTitle.visible = false
+
+                player.speed = 0.25
+            }
+
+            else     current--
+
+        }
+    }
+
+    Rectangle {
+
+        id: respawnTitle
+        visible: false
+        x: window.width / 2
+
+        Text {
+            id: name
+
+            color: "green"
+            anchors.horizontalCenter: respawnTitle.horizontalCenter
+            font.bold: true
+            y: window.height / 2 -50
+
+            font.pointSize: 40
+
+            text: qsTr("Respawn dans "+restart.current)
+        }
+    }
+
+    Rectangle {
+
+        id: endTitle
+        visible: false
+        width: window.width
+        height: window.height
+        color: "black"
+
+        Text {
+
+            id: endName
+            visible: true
+
+            anchors.horizontalCenter: endTitle.horizontalCenter
+            font.bold: true
+            y: window.height / 2 - height
+
+            font.pointSize: 60
+
+            color: "red"
+            text: qsTr("Game Over !")
 
         }
     }

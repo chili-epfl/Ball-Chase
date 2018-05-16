@@ -6,5 +6,6 @@
         <file>WallDetector.qml</file>
         <file>CollisionDetector.qml</file>
         <file>Player.qml</file>
+        <file>EventManager.qml</file>
     </qresource>
 </RCC>

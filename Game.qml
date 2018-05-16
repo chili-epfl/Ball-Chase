@@ -4,7 +4,10 @@ import QtQuick 2.0
 Item {
 
     signal start
-
+    property int lifeAmount : 3
+    property Repeater repeater: repeat
+    property Rectangle chrono : chrono
+    property Rectangle lifesRec : lifesRectangle
 
     function startTimer() {
 
@@ -16,9 +19,9 @@ Item {
     Repeater{
 
         id: repeat
-        model: 1
+        model: 3
 
-        MovingBall {size: 80+index; colour: "blue";repeatTime: 1 + index / 12;rad: index/5}
+        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: index/5}
 
 
     }
@@ -36,15 +39,43 @@ Item {
 
     Rectangle {
 
+        property Text text : name
+
+        id: chrono
         visible: true
         width: 80
         height: 30
 
         Text {
+            font.bold: true
+            font.pointSize: 20
+            color: "purple"
             id: name
             text: qsTr(gameTimer.minutes+" : "+gameTimer.seconds)
         }
     }
+
+    Rectangle {
+
+        id: lifesRectangle
+
+        visible: true
+        width: 150
+        height: 30
+
+        x: window.width - width * 1.23
+
+        Text {
+            id: lifes
+            color: "orange"
+            font.bold: true
+            font.pointSize: 20
+            text: qsTr("Lifes left : "+lifeAmount)
+        }
+    }
+
+
+
 
     Timer {
 
@@ -60,7 +91,7 @@ Item {
 
         onTriggered: {
 
-            var colors = ["red","green","purple","yellow","blue","orange","pink","gray","black"]
+            var colors = ["red","green","purple","yellow","blue","orange","pink","gray"]
 
             pointer++
 
@@ -83,16 +114,26 @@ Item {
 
             repeat.itemAt(pointer).current.color = colors[pointerColor]
 
-            if(minutes == 0 && seconds == 1) {
-                player.size = 60
-                player.body.x = window.width / 2 - player.body.width / 2
-                player.body.y = window.height / 2 - player.body.height / 2
+            if(minutes == 0 && seconds == 1)
+
+                event.initPlayer(player)
+
+            if(minutes == 0 && seconds == 30) {
+
+                event.addBall(this)
             }
 
 
 
 
+
+
         }
+    }
+
+    EventManager {
+
+        id:event
     }
 
 
