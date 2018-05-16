@@ -1,4 +1,4 @@
-# Mini-Game-QML
+# Ball Chase
 
 **Copyrights :**
 
@@ -6,6 +6,10 @@
 - You are allowed to use and modify partially or entirely the code
 - You are neither allowed to sell entierly nor partially the code
 
+**Information**
+
+- Game developped using QML components, according to Qt 5.9
+- Build system : Qmake
 
 **Game Description :**
 
