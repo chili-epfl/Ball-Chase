@@ -13,9 +13,9 @@
 
 **Game Description :**
 
-Pretty simple game, the purpose is to stay alive (at least 1 life left) the largest amount of time as possible\n
-You control a single cube (white or black depending of the theme), you have to escape the balls on the display\n
-When you touch a ball, you loose a life
+Pretty simple game, the purpose is to stay alive (at least 1 life left) the largest amount of time as possible.
+You control a single cube (white or black depending of the theme), you have to escape the balls on the display.
+When you touch a ball, you lose a life
 
 Each 40 seconds a new event appear, here is the list of all possible events :
 
