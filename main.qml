@@ -4,6 +4,7 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow {
 
+
     id: window
     visible: true
     width: 850

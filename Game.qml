@@ -16,7 +16,6 @@ Item {
 
     }
 
-
     Repeater{
 
         id: repeat
@@ -38,6 +37,7 @@ Item {
         }
 
     }
+
 
     Rectangle {
 
@@ -66,7 +66,6 @@ Item {
         height: 30
 
         x: window.width - width * 1.23
-
         Text {
             id: lifes
             color: "orange"
@@ -100,6 +99,7 @@ Item {
             if(seconds == 59) {
                 seconds = 0
                 minutes++
+                event.addBall()
             }
 
             else seconds++
@@ -119,16 +119,6 @@ Item {
             if(minutes == 0 && seconds == 1)
 
                 event.initPlayer(player)
-
-            if(minutes == 0 && seconds == 10) {
-
-                event.addBall()
-            }
-
-
-
-
-
 
         }
     }
