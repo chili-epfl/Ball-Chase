@@ -1,13 +1,13 @@
 # Mini-Game-QML
 
-Copyrights : 
+*Copyrights :* 
 
 - Game created by Askigh
 - You are allowed to use and modify partially or entirely the code
 - You are neither allowed to sell entierly nor partially the code
 
 
-Game Description :
+*Game Description :*
 
 Pretty simple game, the purpose is to stay alive (at least 1 life left) the largest amount of time as possible
 You control a single cube (white or black depending of the theme), you have to escape the balls on the display 
@@ -30,5 +30,11 @@ Each 40 seconds a new event appear, here is the list of all possible events :
 "Light Balls" Each ball's size decreases of 30%, the speed's ball increases of 40% though
 
 "Control ? No way" : Your speed becomes 0.4 (usually 0.25) and you are not able to change it
+
+*Settings :*
+
+You can change the background color (either black or white) in the menu, then options then white / black
+
+
 
 
