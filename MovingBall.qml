@@ -28,7 +28,7 @@ Item {
         y: window.height / 2 - height / 2
     }
 
-    function launch() {
+    function launch(balls, next, ball) {
 
         var angle = Math.random(10) * 360
         xCoords = Math.cos(Math.PI*angle/180)
@@ -39,6 +39,8 @@ Item {
         ballMovement.lastAngle = angle
         ballMovement.running = true
         ballMovement.repeat = true
+
+        balls.push(ball)
 
     }
 
@@ -124,6 +126,7 @@ Item {
             }
 
             if(coll.isCollisionBetween(player.body, currentBall)) {
+
                 console.log("You are dead !")
                 lifeAmount--
 
@@ -133,16 +136,18 @@ Item {
                 player.body.y = window.height / 2 - player.body.height / 2
 
 
-                for(var a = 0; a<game.repeater.model; a++)
-                    game.repeater.itemAt(a).ballMovement.running = false
+                for(var a = 0; a<game.balls.length; a++)
+                    game.balls[a].ballMovement.running = false
 
                 if(lifeAmount == 0) {
+
+                    console.log("No lifes left :C")
                     chrono.visible = false
                     lifesRectangle.visible = false
                     endTitle.visible = true
 
-                    for(var b = 0; b<game.repeater.model; b++)
-                        game.repeater.itemAt(b).current.visible = false
+                    for(var b = 0; b<game.balls.length; b++)
+                        game.balls[b].current.visible = false
                 }
 
                 else
@@ -180,8 +185,9 @@ Item {
                 running = false
                 interval = 10
 
-                for(var a = 0; a<game.repeater.model; a++)
-                    game.repeater.itemAt(a).ballMovement.running = true
+                for(var a = 0; a<game.balls.length; a++)
+                    game.balls[a].ballMovement.running = true
+
 
                 respawnTitle.visible = false
 

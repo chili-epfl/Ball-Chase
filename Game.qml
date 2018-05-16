@@ -8,6 +8,7 @@ Item {
     property Repeater repeater: repeat
     property Rectangle chrono : chrono
     property Rectangle lifesRec : lifesRectangle
+    property int next : 0
     property list<MovingBall> balls
 
     function startTimer() {
@@ -19,7 +20,7 @@ Item {
     Repeater{
 
         id: repeat
-        model: 3
+        model: 1
 
         MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: index/5}
 
@@ -30,9 +31,8 @@ Item {
 
         for(var a = 0; a < repeat.model ; a++) {
 
-            repeat.itemAt(a).launch()
+            repeat.itemAt(a).launch(balls, next, repeat.itemAt(a))
             repeat.itemAt(a).current.visible = true
-            balls[a] = repeat.itemAt(a)
 
         }
 
@@ -119,6 +119,14 @@ Item {
             if(minutes == 0 && seconds == 1)
 
                 event.initPlayer(player)
+
+
+            if(seconds == 3)
+                event.multiBall()
+
+
+            if(seconds == 15)
+                event.fatBalls()
 
         }
     }
