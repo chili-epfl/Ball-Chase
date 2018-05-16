@@ -3,7 +3,6 @@ import QtQuick 2.0
 Item {
 
     property int pointer : 0
-    property double dimiution : 0
 
     function initPlayer(player) {
 
@@ -20,43 +19,43 @@ Item {
         case 0:
 
             one.current.visible = true
-            one.launch()
+            one.launch(game.balls, one)
             break
 
         case 1:
 
             two.current.visible = true
-            two.launch()
+            two.launch(game.balls, two)
             break
 
         case 2:
 
             three.current.visible = true
-            three.launch()
+            three.launch(game.balls, three)
             break
 
         case 3:
 
             four.current.visible = true
-            four.launch()
+            four.launch(game.balls, four)
             break
 
         case 4:
 
             five.current.visible = true
-            five.launch()
+            five.launch(game.balls, five)
             break
 
         case 5:
 
             six.current.visible = true
-            six.launch()
+            six.launch(game.balls, six)
             break
 
         case 6:
 
             seven.current.visible = true
-            seven.launch()
+            seven.launch(game.balls, seven)
             break
 
         default:
@@ -68,16 +67,17 @@ Item {
 
     }
 
-    MovingBall {id:one; size: 65; colour: "blue"; repeatTime: 7; rad: 1}
-    MovingBall {id:two; size: 70; colour: "blue"; repeatTime: 7; rad: 1}
-    MovingBall {id:three; size: 75; colour: "blue"; repeatTime: 6; rad: 1}
-    MovingBall {id:four; size: 80; colour: "blue"; repeatTime: 6; rad: 1}
-    MovingBall {id:five; size: 85; colour: "blue"; repeatTime: 5; rad: 1}
-    MovingBall {id:six; size: 90; colour: "blue"; repeatTime: 5; rad: 1}
-    MovingBall {id:seven; size: 100; colour: "blue"; repeatTime: 3; rad: 1}
+    MovingBall {id:one; size: 65; colour: "blue"; repeatTime: 7; rad: 100}
+    MovingBall {id:two; size: 70; colour: "blue"; repeatTime: 7; rad: 100}
+    MovingBall {id:three; size: 75; colour: "blue"; repeatTime: 6; rad: 100}
+    MovingBall {id:four; size: 80; colour: "blue"; repeatTime: 6; rad: 100}
+    MovingBall {id:five; size: 85; colour: "blue"; repeatTime: 5; rad: 100}
+    MovingBall {id:six; size: 90; colour: "blue"; repeatTime: 5; rad: 100}
+    MovingBall {id:seven; size: 100; colour: "blue"; repeatTime: 3; rad: 100}
 
     function multiBall() {
 
+        // TODO : RESET POSITION AND SIZE AT THE BEGINNING
         var event = 1
 
         timerEvent.running = true
@@ -86,12 +86,12 @@ Item {
         extraOne.current.visible = true
         extraTwo.current.visible = true
 
-        extraOne.launch(game.balls, game.next, extraOne)
-        extraTwo.launch(game.balls, game.next, extraTwo)
+        extraOne.launch(game.balls, extraOne)
+        extraTwo.launch(game.balls, extraTwo)
 
     }
 
-    MovingBall {id:extraOne; size: 80; colour: "red"; repeatTime: 5; rad: 1}
+    MovingBall {id:extraOne; size: 80; colour: "red"; repeatTime: 5; rad: 140}
     MovingBall {id:extraTwo; size: 80; colour: "red"; repeatTime: 5; rad: 140}
 
     function fatBalls() {
@@ -103,12 +103,24 @@ Item {
 
         for(var a = 0; a<game.balls.length; a++) {
 
-            var d = game.balls[a].size * 0.6
-            dimiution = d
-            game.balls[a].size += d
+            game.balls[a].size += 40
         }
 
     }
+
+    function moon() {
+
+        var event = 3
+
+        timerEvent.running = true
+        timerEvent.event = event
+
+        moon.launch(game.balls, moon)
+        moon.current.visible = true
+    }
+
+    MovingBall {id:moon; size: 350; colour: "gray"; repeatTime: 5; rad: 1000}
+
 
     Timer {
 
@@ -135,6 +147,10 @@ Item {
                 case 2:
                     finishFatBalls()
                     break
+
+                case 3:
+                    finishMoon()
+                    break
                 }
 
                 running = false
@@ -153,7 +169,7 @@ Item {
 
         console.log("Successfully finished MultiBall event")
 
-        extraOne.current.x = 90000
+        extraOne.current.x = 900000
         extraTwo.current.x = 900000
 
 
@@ -165,12 +181,15 @@ Item {
 
         for(var a = 0; a<game.balls.length; a++) {
 
-            console.log(dimiution)
-            game.balls[a].size -= dimiution
+            game.balls[a].size -= 40
         }
 
     }
 
+    function finishMoon() {
+
+        moon.current.x = 900000
+    }
 
 
 

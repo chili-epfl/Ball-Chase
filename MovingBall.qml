@@ -10,14 +10,14 @@ Item {
     property double xCoords : 0
     property double yCoords : 0
     property int repeatTime : 1
-    property int rad : 0
+    property int rad : 100
     property int rot : 0
     property Timer ballMovement : ballMovement
 
     Rectangle {
 
         id: currentBall
-        radius: 100
+        radius: rad
         width: size
         height: size
         color : colour
@@ -28,7 +28,7 @@ Item {
         y: window.height / 2 - height / 2
     }
 
-    function launch(balls, next, ball) {
+    function launch(balls, ball) {
 
         var angle = Math.random(10) * 360
         xCoords = Math.cos(Math.PI*angle/180)
@@ -72,8 +72,6 @@ Item {
                 x = Math.cos(Math.PI/180*newAngle1)
                 y = -Math.sin(Math.PI/180*newAngle1)
 
-                if(newAngle1 !== lastAngle)
-                    console.log("New angle defined : "+lastAngle)
 
                 lastAngle = newAngle1
 
@@ -87,8 +85,6 @@ Item {
                 x = Math.cos(Math.PI/180*newAngle2)
                 y = -Math.sin(Math.PI/180*newAngle2)
 
-                if(newAngle2 !== lastAngle)
-                    console.log("New angle defined : "+lastAngle)
 
                 lastAngle = newAngle2
 
@@ -100,9 +96,6 @@ Item {
 
                 x = Math.cos(Math.PI/180*newAngle3)
                 y = -Math.sin(Math.PI/180*newAngle3)
-
-                if(newAngle3 !== lastAngle)
-                    console.log("New angle defined : "+lastAngle)
 
                 lastAngle = newAngle3
 
@@ -116,9 +109,6 @@ Item {
 
                 x = Math.cos(Math.PI/180*newAngle4)
                 y = -Math.sin(Math.PI/180*newAngle4)
-
-                if(newAngle4 !== lastAngle)
-                    console.log("New angle defined : "+lastAngle)
 
                 lastAngle = newAngle4
 
@@ -140,6 +130,8 @@ Item {
                     game.balls[a].ballMovement.running = false
 
                 if(lifeAmount == 0) {
+
+                    game.gameTimer.running = false
 
                     console.log("No lifes left :C")
                     chrono.visible = false

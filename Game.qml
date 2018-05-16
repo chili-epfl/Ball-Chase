@@ -4,10 +4,11 @@ import QtQuick 2.0
 Item {
 
     signal start
-    property int lifeAmount : 5
+    property int lifeAmount : 50
     property Repeater repeater: repeat
     property Rectangle chrono : chrono
     property Rectangle lifesRec : lifesRectangle
+    property Timer gameTimer : gameTimer
     property int next : 0
     property list<MovingBall> balls
 
@@ -20,10 +21,9 @@ Item {
     Repeater{
 
         id: repeat
-        model: 1
+        model: 3
 
-        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: index/5}
-
+        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: 100}
 
     }
 
@@ -31,7 +31,7 @@ Item {
 
         for(var a = 0; a < repeat.model ; a++) {
 
-            repeat.itemAt(a).launch(balls, next, repeat.itemAt(a))
+            repeat.itemAt(a).launch(balls, repeat.itemAt(a))
             repeat.itemAt(a).current.visible = true
 
         }
@@ -99,7 +99,6 @@ Item {
             if(seconds == 59) {
                 seconds = 0
                 minutes++
-                event.addBall()
             }
 
             else seconds++
@@ -121,12 +120,40 @@ Item {
                 event.initPlayer(player)
 
 
-            if(seconds == 3)
-                event.multiBall()
+            if(seconds % 15 == 0) {
 
+                console.log("New Event")
+               var eventNumber = Math.floor(Math.random() * 4);
 
-            if(seconds == 15)
-                event.fatBalls()
+               switch(eventNumber) {
+
+               case 0:
+
+                   console.log("One more !")
+
+                   event.addBall()
+                   break
+
+               case 1:
+
+                   console.log("multi balls !")
+
+                   event.multiBall()
+                   break
+
+               case 2:
+
+                   console.log("fat balls !")
+                   event.fatBalls()
+                   break
+
+               case 3:
+                   console.log("moon !")
+                   event.moon()
+                   break;
+               }
+
+            }
 
         }
     }
