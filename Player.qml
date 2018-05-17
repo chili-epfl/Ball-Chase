@@ -50,6 +50,7 @@ Item {
 
 
         Text {
+
             id: name
             visible: true
             text: qsTr("Welcome to the robot interface !")
@@ -58,6 +59,7 @@ Item {
             x : window.width / 2 - width / 2
             y : window.height / 2 - 60
         }
+
         MacAddrSelector {
             addresses: [
                 // 17 adresses
