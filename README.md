@@ -10,6 +10,7 @@
 
 - Game developped using QML components, according to Qt 5.9
 - Build system : Qmake
+- Extern library : Cellulo 1.0 (Website : https://chili.epfl.ch/)
 
 **Game Description :**
 
@@ -25,19 +26,18 @@ Each 40 seconds a new event appear, here is the list of all possible events :
 
 - "Multiballs" : 2 balls suddently appear
 
-- "Walls everywhere" : Some random positions are locked on the field, you can not cross them
+- "Walls everywhere" : Some random positions are locked on the field, you can not cross them // TODO
 
-- "Static balls" : Some balls at random positions appear, they can't move though
+- "Static balls" : Some balls at random positions appear, they can't move though // TODO
 
 - "Moon" : A huge ball appears
 
-- "Light Balls" Each ball's size decreases of 30%, the speed's ball increases of 40% though
+- "Light Balls" Each ball's size decreases of 30%, the speed's ball increases of 40% though // TODO
 
-- "Control ? No way" : Your speed becomes 0.4 (usually 0.25) and you are not able to change it
 
 **Settings :**
 
-You can change the background color (either black or white) in the menu, then options then white / black
+You can change the background color (either black or white) in the menu, then options, finally white or black
 
 
 
