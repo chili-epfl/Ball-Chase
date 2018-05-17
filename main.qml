@@ -171,13 +171,7 @@ ApplicationWindow {
             optionText.visible = false
             playText.visible = false
 
-            window.update()
-
-
             player.focus = true
-
-            // player.body.visible = false
-
 
         }
 
@@ -187,8 +181,8 @@ ApplicationWindow {
     Player {
 
         id: player
-
-        enabled: true
+        visible: true
+        focus: true
 
     }
 

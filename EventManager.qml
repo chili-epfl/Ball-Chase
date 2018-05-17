@@ -80,19 +80,34 @@ Item {
         // TODO : RESET POSITION AND SIZE AT THE BEGINNING
         var event = 1
 
+
+        extraOne.current.x = window.width / 2 - extraOne.current.width
+        extraTwo.current.x = window.width / 2 - extraTwo.current.width
+        extraThree.current.x = window.width / 2 - extraThree.current.width
+
+        extraOne.current.y = window.height / 2 - extraOne.current.height
+        extraTwo.current.y = window.height / 2 - extraTwo.current.height
+        extraThree.current.y = window.height / 2 - extraThree.current.height
+
+
         timerEvent.running = true
         timerEvent.event = event
 
         extraOne.current.visible = true
         extraTwo.current.visible = true
+        extraThree.current.visible = true
 
         extraOne.launch(game.balls, extraOne)
         extraTwo.launch(game.balls, extraTwo)
+        extraThree.launch(game.balls, extraThree)
+
 
     }
 
     MovingBall {id:extraOne; size: 80; colour: "red"; repeatTime: 5; rad: 140}
     MovingBall {id:extraTwo; size: 80; colour: "red"; repeatTime: 5; rad: 140}
+    MovingBall {id:extraThree; size: 80; colour: "red"; repeatTime: 5; rad: 140}
+
 
     function fatBalls() {
 
@@ -112,6 +127,9 @@ Item {
 
         var event = 3
 
+        moon.current.x = window.width / 2 - moon.current.width
+        moon.current.y = window.height / 2 - moon.current.height
+
         timerEvent.running = true
         timerEvent.event = event
 
@@ -119,7 +137,7 @@ Item {
         moon.current.visible = true
     }
 
-    MovingBall {id:moon; size: 350; colour: "gray"; repeatTime: 5; rad: 1000}
+    MovingBall {id:moon; size: 250; colour: "gray"; repeatTime: 10; rad: 500}
 
 
     Timer {
@@ -171,6 +189,7 @@ Item {
 
         extraOne.current.x = 900000
         extraTwo.current.x = 900000
+        extraThree.current.x = 900000
 
 
     }

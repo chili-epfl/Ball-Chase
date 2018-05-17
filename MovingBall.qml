@@ -6,13 +6,50 @@ Item {
     property int size
     property string colour
     property Rectangle current : currentBall
-    property double coeff : 1
     property double xCoords : 0
     property double yCoords : 0
     property int repeatTime : 1
     property int rad : 100
     property int rot : 0
     property Timer ballMovement : ballMovement
+    signal change
+
+
+    onChange: {
+
+        if(coll.isCollisionBetween(player.body, currentBall)) {
+
+            console.log("You are dead !")
+            lifeAmount--
+
+
+
+            player.body.x = window.width / 2 - player.body.width / 2
+            player.body.y = window.height / 2 - player.body.height / 2
+
+
+            for(var a = 0; a<game.balls.length; a++)
+                game.balls[a].ballMovement.running = false
+
+            if(lifeAmount == 0) {
+
+                game.gameTimer.running = false
+
+                console.log("No lifes left :C")
+                chrono.visible = false
+                lifesRectangle.visible = false
+                endTitle.visible = true
+
+                for(var b = 0; b<game.balls.length; b++)
+                    game.balls[b].current.visible = false
+            }
+
+            else
+                restart.running = true
+
+
+        }
+    }
 
     Rectangle {
 
@@ -26,6 +63,9 @@ Item {
 
         x: window.width / 2 - width / 2
         y: window.height / 2 - height / 2
+
+        onXChanged: change()
+        onYChanged: change()
     }
 
     function launch(balls, ball) {
@@ -56,10 +96,8 @@ Item {
 
         onTriggered: {
 
-            coeff += 0.00003
-
-            currentBall.x += x * coeff
-            currentBall.y += y * coeff
+            currentBall.x += x
+            currentBall.y += y
             currentBall.rotation += 0.1
 
             var xCenter = window.width / 2
@@ -115,39 +153,7 @@ Item {
 
             }
 
-            if(coll.isCollisionBetween(player.body, currentBall)) {
 
-                console.log("You are dead !")
-                lifeAmount--
-
-
-
-                player.body.x = window.width / 2 - player.body.width / 2
-                player.body.y = window.height / 2 - player.body.height / 2
-
-
-                for(var a = 0; a<game.balls.length; a++)
-                    game.balls[a].ballMovement.running = false
-
-                if(lifeAmount == 0) {
-
-                    game.gameTimer.running = false
-
-                    console.log("No lifes left :C")
-                    chrono.visible = false
-                    lifesRectangle.visible = false
-                    endTitle.visible = true
-
-                    for(var b = 0; b<game.balls.length; b++)
-                        game.balls[b].current.visible = false
-                }
-
-                else
-                    restart.running = true
-
-
-
-            }
 
         }
     }

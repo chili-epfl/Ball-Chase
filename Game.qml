@@ -4,7 +4,7 @@ import QtQuick 2.0
 Item {
 
     signal start
-    property int lifeAmount : 50
+    property int lifeAmount : 7
     property Repeater repeater: repeat
     property Rectangle chrono : chrono
     property Rectangle lifesRec : lifesRectangle
@@ -21,9 +21,9 @@ Item {
     Repeater{
 
         id: repeat
-        model: 3
+        model: 1
 
-        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: 100}
+        MovingBall {size: 80+index; colour: "blue";repeatTime: 6 + index / 12;rad: 100}
 
     }
 
@@ -123,35 +123,36 @@ Item {
             if(seconds % 15 == 0) {
 
                 console.log("New Event")
-               var eventNumber = Math.floor(Math.random() * 4);
+                var eventNumber = 3//Math.floor(Math.random() * 4);
 
-               switch(eventNumber) {
+                switch(eventNumber) {
 
-               case 0:
+                case 0:
 
-                   console.log("One more !")
+                    console.log("One more !")
 
-                   event.addBall()
-                   break
+                    if(Math.random()>0.4)
+                        event.addBall()
+                    break
 
-               case 1:
+                case 1:
 
-                   console.log("multi balls !")
+                    console.log("multi balls !")
 
-                   event.multiBall()
-                   break
+                    event.multiBall()
+                    break
 
-               case 2:
+                case 2:
 
-                   console.log("fat balls !")
-                   event.fatBalls()
-                   break
+                    console.log("fat balls !")
+                    event.fatBalls()
+                    break
 
-               case 3:
-                   console.log("moon !")
-                   event.moon()
-                   break;
-               }
+                case 3:
+                    console.log("moon !")
+                    event.moon()
+                    break;
+                }
 
             }
 
