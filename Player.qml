@@ -62,7 +62,7 @@ Item {
 
         MacAddrSelector {
             addresses: [
-                // 17 adresses
+
                 "00:06:66:74:3E:7E",
                 "00:06:66:74:48:A7",
                 "00:06:66:74:40:D2",
