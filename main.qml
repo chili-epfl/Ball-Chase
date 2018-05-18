@@ -53,7 +53,7 @@ ApplicationWindow {
 
         Text {
             id: optionText
-            anchors.horizontalCenter: options.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             font.pointSize: 30
             text: "Options"
             color: "black"
@@ -172,6 +172,7 @@ ApplicationWindow {
             playText.visible = false
 
             player.focus = true
+            player.body.visible = true
 
         }
 

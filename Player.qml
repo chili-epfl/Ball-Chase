@@ -1,6 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import Cellulo 1.0
+import QMLCache 1.0
+import QMLBluetoothExtras 1.0
+
 
 Item {
 
@@ -8,6 +11,7 @@ Item {
     //To stay with keyboard input use the code committed at the bottom instead
 
     property Rectangle body : playerBody
+    property Text info : infos
     property CelluloRobot robot : robot
     property int size : 60
     property double angle : 90
@@ -20,7 +24,7 @@ Item {
 
     Rectangle {
 
-        visible: true
+        visible : false
         id: playerBody
 
         color: "black"
@@ -28,14 +32,6 @@ Item {
         width: size
         height: size
         radius: 15
-
-        x: robot.x * coeff
-        y: robot.y * coeff
-
-        onXChanged: {
-            console.log(coeff)
-            console.log(x+"/"+y)
-        }
     }
 
 
@@ -57,37 +53,83 @@ Item {
             font.bold: true
             font.pointSize: 20
             x : window.width / 2 - width / 2
-            y : window.height / 2 - 60
+            y : window.height / 2 - 40
         }
 
-        MacAddrSelector {
-            addresses: [
+        Text {
 
-                "00:06:66:74:3E:7E",
-                "00:06:66:74:48:A7",
-                "00:06:66:74:40:D2",
-                "00:06:66:74:40:D4",
-                "00:06:66:74:40:D5",
-                "00:06:66:74:40:DB",
-                "00:06:66:74:40:DC",
-                "00:06:66:74:40:E4",
-                "00:06:66:74:40:EC",
-                "00:06:66:74:40:EE",
-                "00:06:66:74:41:03",
-                "00:06:66:74:41:04",
-                "00:06:66:74:41:14",
-                "00:06:66:74:41:4C",
-                "00:06:66:74:43:00",
-                "00:06:66:74:43:01",
-                "00:06:66:74:46:58",
-                "00:06:66:74:46:60"
-            ]
+            id: infos
+            visible: true
+            text: qsTr("To start a game: connect your robot, place it wherever you want and click play\n"
+                        +"                  You'll be informed here when a new event occur")
 
-            onConnectRequested: robot.macAddr = selectedAddress
-            onDisconnectRequested: robot.disconnectFromServer()
-            connectionStatus: robot.connectionStatus
+            font.bold: true
+            font.pointSize: 15
 
+            color: "green"
+
+            x : window.width / 2 - width / 2
+            y : window.height / 2 + 20
         }
+
+        GroupBox {
+            title: "Robot Address"
+            width: 940
+
+            Column{
+                spacing: 5
+
+                MacAddrSelector{
+                    id: macAddrSelector
+                    addresses: QMLCache.read("addresses").split(",")
+                    onConnectRequested: {
+                        robot.localAdapterMacAddr = selectedLocalAdapterAddress;
+                        robot.macAddr = selectedAddress;
+                    }
+                    onDisconnectRequested: robot.disconnectFromServer()
+                    connectionStatus: robot.connectionStatus
+                }
+
+                Row{
+                    spacing: 5
+
+                    BusyIndicator{
+                        running: scanner.scanning
+                        height: scanButton.height
+                    }
+
+                    Button{
+                        id: scanButton
+                        text: "Scan"
+                        onClicked: scanner.start()
+                    }
+
+                    Button{
+                        text: "Clear List"
+                        onClicked: {
+                            macAddrSelector.addresses = [];
+                            QMLCache.write("addresses","");
+                        }
+                    }
+                }
+            }
+        }
+
+        CelluloBluetoothScanner{
+            id: scanner
+            onRobotDiscovered: {
+                var newAddresses = macAddrSelector.addresses;
+                if(newAddresses.indexOf(macAddr) < 0){
+                    toast.show(macAddr + " discovered.");
+                    newAddresses.push(macAddr);
+                    newAddresses.sort();
+                }
+                macAddrSelector.addresses = newAddresses;
+                QMLCache.write("addresses", macAddrSelector.addresses.join(','));
+            }
+        }
+
+        ToastManager{ id: toast }
 
         CelluloRobot {
 
@@ -96,6 +138,7 @@ Item {
 
             onConnectionStatusChanged: {
 
+                robot.reset()
                 //Compare to test if the robot is connected
                 if(connectionStatus === CelluloBluetoothEnums.ConnectionStatusConnected) {
                     // If yes, make the title green
@@ -104,6 +147,13 @@ Item {
                 }
 
                 console.log("Info : Attempt to change robot's statut");
+            }
+
+            onPoseChanged: {
+
+                body.x = robot.x * coeff
+                body.y = robot.y * coeff
+
             }
 
 

@@ -14,56 +14,8 @@ Item {
 
     function addBall() {
 
-        switch(pointer) {
+        waitBall.running = true
 
-        case 0:
-
-            one.current.visible = true
-            one.launch(game.balls, one)
-            break
-
-        case 1:
-
-            two.current.visible = true
-            two.launch(game.balls, two)
-            break
-
-        case 2:
-
-            three.current.visible = true
-            three.launch(game.balls, three)
-            break
-
-        case 3:
-
-            four.current.visible = true
-            four.launch(game.balls, four)
-            break
-
-        case 4:
-
-            five.current.visible = true
-            five.launch(game.balls, five)
-            break
-
-        case 5:
-
-            six.current.visible = true
-            six.launch(game.balls, six)
-            break
-
-        case 6:
-
-            seven.current.visible = true
-            seven.launch(game.balls, seven)
-            break
-
-        default:
-            break
-
-        }
-
-        pointer++
 
     }
 
@@ -77,30 +29,7 @@ Item {
 
     function multiBall() {
 
-        // TODO : RESET POSITION AND SIZE AT THE BEGINNING
-        var event = 1
-
-
-        extraOne.current.x = window.width / 2 - extraOne.current.width
-        extraTwo.current.x = window.width / 2 - extraTwo.current.width
-        extraThree.current.x = window.width / 2 - extraThree.current.width
-
-        extraOne.current.y = window.height / 2 - extraOne.current.height
-        extraTwo.current.y = window.height / 2 - extraTwo.current.height
-        extraThree.current.y = window.height / 2 - extraThree.current.height
-
-
-        timerEvent.running = true
-        timerEvent.event = event
-
-        extraOne.current.visible = true
-        extraTwo.current.visible = true
-        extraThree.current.visible = true
-
-        extraOne.launch(game.balls, extraOne)
-        extraTwo.launch(game.balls, extraTwo)
-        extraThree.launch(game.balls, extraThree)
-
+        waitMulti.running = true
 
     }
 
@@ -111,41 +40,163 @@ Item {
 
     function fatBalls() {
 
-        var event = 2
-
-        timerEvent.running = true
-        timerEvent.event = event
-
-        for(var a = 0; a<game.balls.length; a++) {
-
-            game.balls[a].size += 40
-        }
-
+        waitFat.running = true
     }
 
     function moon() {
 
-        var event = 3
-
-        moon.current.x = window.width / 2 - moon.current.width
-        moon.current.y = window.height / 2 - moon.current.height
-
-        timerEvent.running = true
-        timerEvent.event = event
-
-        moon.launch(game.balls, moon)
-        moon.current.visible = true
+        waitMoon.running = true
     }
 
-    MovingBall {id:moon; size: 250; colour: "gray"; repeatTime: 10; rad: 500}
+    MovingBall {id:moon; size: 300; colour: "gray"; repeatTime: 10; rad: 500}
 
+    Timer {
+
+        id: waitMoon
+        repeat: false
+        interval: 3000
+        onTriggered: {
+
+            var event = 3
+
+            moon.current.x = window.width / 2 - moon.current.width
+            moon.current.y = window.height / 2 - moon.current.height
+
+            timerEvent.running = true
+            timerEvent.event = event
+
+            moon.launch(game.balls, moon)
+            moon.current.visible = true
+        }
+
+    }
+
+    Timer {
+
+        id: waitMulti
+        repeat: false
+        interval: 3000
+
+        onTriggered: {
+
+            var event = 1
+
+
+            extraOne.current.x = window.width / 2 - extraOne.current.width
+            extraTwo.current.x = window.width / 2 - extraTwo.current.width
+            extraThree.current.x = window.width / 2 - extraThree.current.width
+
+            extraOne.current.y = window.height / 2 - extraOne.current.height
+            extraTwo.current.y = window.height / 2 - extraTwo.current.height
+            extraThree.current.y = window.height / 2 - extraThree.current.height
+
+
+            timerEvent.running = true
+            timerEvent.event = event
+
+            extraOne.current.visible = true
+            extraTwo.current.visible = true
+            extraThree.current.visible = true
+
+            extraOne.launch(game.balls, extraOne)
+            extraTwo.launch(game.balls, extraTwo)
+            extraThree.launch(game.balls, extraThree)
+        }
+    }
+
+    Timer {
+
+        id: waitBall
+        repeat: false
+        interval: 3000
+
+        onTriggered:  {
+
+            timerEvent.running = true
+            timerEvent.event = 0
+
+            switch(pointer) {
+
+
+            case 0:
+
+                one.current.visible = true
+                one.launch(game.balls, one)
+                break
+
+            case 1:
+
+                two.current.visible = true
+                two.launch(game.balls, two)
+                break
+
+            case 2:
+
+                three.current.visible = true
+                three.launch(game.balls, three)
+                break
+
+            case 3:
+
+                four.current.visible = true
+                four.launch(game.balls, four)
+                break
+
+            case 4:
+
+                five.current.visible = true
+                five.launch(game.balls, five)
+                break
+
+            case 5:
+
+                six.current.visible = true
+                six.launch(game.balls, six)
+                break
+
+            case 6:
+
+                seven.current.visible = true
+                seven.launch(game.balls, seven)
+                break
+
+            default:
+                break
+
+            }
+
+            pointer++
+        }
+
+    }
+
+    Timer {
+
+        id: waitFat
+        repeat: false
+        interval: 3000
+
+        onTriggered: {
+
+            var event = 2
+
+            timerEvent.running = true
+            timerEvent.event = event
+
+            for(var a = 0; a<game.balls.length; a++) {
+
+                game.balls[a].size += 40
+            }
+        }
+
+    }
 
     Timer {
 
         id: timerEvent
 
         property int event : 0
-        property int current : 10
+        property int current : 20
 
         repeat: true
         interval: 1000
@@ -157,6 +208,8 @@ Item {
             if(current == 0) {
 
                 switch(event) {
+
+                case 0: break
 
                 case 1:
                     finishMultiBalls()
@@ -173,7 +226,10 @@ Item {
 
                 running = false
 
-                current = 10
+                current = 20
+
+                player.info.color = "orange"
+                player.info.text = "Waiting for an other super fun event...."
             }
         }
     }

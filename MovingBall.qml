@@ -17,35 +17,36 @@ Item {
 
     onChange: {
 
-        if(coll.isCollisionBetween(player.body, currentBall)) {
+        if(coll.isCollisionBetween(player.body, currentBall) && !(game.gameTimer.minutes === 0 && game.gameTimer.seconds < 2)) {
 
-            console.log("You are dead !")
-            lifeAmount--
-
-
-
-            player.body.x = window.width / 2 - player.body.width / 2
-            player.body.y = window.height / 2 - player.body.height / 2
+                console.log("You are dead !")
+                lifeAmount--
 
 
-            for(var a = 0; a<game.balls.length; a++)
-                game.balls[a].ballMovement.running = false
 
-            if(lifeAmount == 0) {
+                player.body.x = window.width / 2 - player.body.width / 2
+                player.body.y = window.height / 2 - player.body.height / 2
 
-                game.gameTimer.running = false
 
-                console.log("No lifes left :C")
-                chrono.visible = false
-                lifesRectangle.visible = false
-                endTitle.visible = true
+                for(var a = 0; a<game.balls.length; a++)
+                    game.balls[a].ballMovement.running = false
 
-                for(var b = 0; b<game.balls.length; b++)
-                    game.balls[b].current.visible = false
-            }
+                if(lifeAmount == 0) {
 
-            else
-                restart.running = true
+                    game.gameTimer.running = false
+
+                    console.log("No lifes left :C")
+                    chrono.visible = false
+                    lifesRectangle.visible = false
+                    endTitle.visible = true
+                    player.body.visible = false
+
+                    for(var b = 0; b<game.balls.length; b++)
+                        game.balls[b].current.visible = false
+                }
+
+                else
+                    restart.running = true
 
 
         }
@@ -206,13 +207,13 @@ Item {
             id: name
 
             color: "green"
-            anchors.horizontalCenter: respawnTitle.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             font.bold: true
             y: window.height / 2 -50
 
             font.pointSize: 40
 
-            text: qsTr("Respawn dans "+restart.current)
+            text: qsTr("Respawn in "+restart.current)
         }
     }
 
@@ -229,7 +230,7 @@ Item {
             id: endName
             visible: true
 
-            anchors.horizontalCenter: endTitle.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             font.bold: true
             y: window.height / 2 - height
 
@@ -238,6 +239,20 @@ Item {
             color: "red"
             text: qsTr("Game Over !")
 
+        }
+
+        Text {
+
+            id: endNameScore
+            visible: true
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            y: window.height / 2 + height / 2
+
+            font.pointSize: 20
+            color: "green"
+            text: qsTr("Your score is "+game.gameTimer.minutes+" : "+game.gameTimer.seconds)
         }
     }
 

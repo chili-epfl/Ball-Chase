@@ -4,7 +4,7 @@ import QtQuick 2.0
 Item {
 
     signal start
-    property int lifeAmount : 7
+    property int lifeAmount : 500
     property Repeater repeater: repeat
     property Rectangle chrono : chrono
     property Rectangle lifesRec : lifesRectangle
@@ -21,9 +21,9 @@ Item {
     Repeater{
 
         id: repeat
-        model: 1
+        model: 4
 
-        MovingBall {size: 80+index; colour: "blue";repeatTime: 6 + index / 12;rad: 100}
+        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: 100}
 
     }
 
@@ -120,41 +120,44 @@ Item {
                 event.initPlayer(player)
 
 
-            if(seconds % 15 == 0) {
+            var eventNumber;
+
+            if((seconds + 3) % 30 == 0) {
 
                 console.log("New Event")
-                var eventNumber = 3//Math.floor(Math.random() * 4);
+                eventNumber = 0//Math.floor(Math.random() * 4);
+                player.info.color = "blue"
 
-                switch(eventNumber) {
+                switch(eventNumber) {                  
 
                 case 0:
 
-                    console.log("One more !")
+                    player.info.text = "Of course this game is easy. Want more difficulty ? Sure. One ball more !"
 
-                    if(Math.random()>0.4)
-                        event.addBall()
+                    event.addBall()
                     break
 
                 case 1:
 
-                    console.log("multi balls !")
+                    player.info.text = "Don't touch them, red balls are hot. Multi Balls !"
 
                     event.multiBall()
                     break
 
                 case 2:
 
-                    console.log("fat balls !")
+                    player.info.text = "I hope you don't usually eat what these balls do. Fat baaaaaaalls !"
                     event.fatBalls()
                     break
 
                 case 3:
-                    console.log("moon !")
+                    player.info.text = "Want to be an astronaut ? Just ask. Here is a moon"
                     event.moon()
                     break;
                 }
 
             }
+
 
         }
     }
