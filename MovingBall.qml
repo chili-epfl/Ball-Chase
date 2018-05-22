@@ -12,43 +12,33 @@ Item {
     property int rad : 100
     property int rot : 0
     property Timer ballMovement : ballMovement
+    property bool allowMovement : false
     signal change
-
 
     onChange: {
 
-        if(coll.isCollisionBetween(player.body, currentBall) && !(game.gameTimer.minutes === 0 && game.gameTimer.seconds < 2)) {
+        if(coll.isCollisionBetween(player.body, currentBall) && !(game.gameTimer.minutes === 0 && game.gameTimer.seconds < 2) && !restart.running) {
 
-                console.log("You are dead !")
-                lifeAmount--
+            console.log("You are dead !")
 
+            ballManage.stopMoves()
 
+            lifeAmount--
 
-                player.body.x = window.width / 2 - player.body.width / 2
-                player.body.y = window.height / 2 - player.body.height / 2
+            if(lifeAmount == 0) {
 
+                gameTimer.running = false
+                chrono.visible = false
+                lifesRectangle.visible = false
+                endTitle.visible = true
+                player.body.visible = false
 
-                for(var a = 0; a<game.balls.length; a++)
-                    game.balls[a].ballMovement.running = false
+                ballManage.hideAll()
 
-                if(lifeAmount == 0) {
+            }
 
-                    game.gameTimer.running = false
-
-                    console.log("No lifes left :C")
-                    chrono.visible = false
-                    lifesRectangle.visible = false
-                    endTitle.visible = true
-                    player.body.visible = false
-
-                    for(var b = 0; b<game.balls.length; b++)
-                        game.balls[b].current.visible = false
-                }
-
-                else
-                    restart.running = true
-
-
+            else
+                restart.running = true
         }
     }
 
@@ -69,24 +59,7 @@ Item {
         onYChanged: change()
     }
 
-    function launch(balls, ball) {
-
-        var angle = Math.random(10) * 360
-        xCoords = Math.cos(Math.PI*angle/180)
-        yCoords = -Math.sin(Math.PI*angle/180)
-
-        ballMovement.x = xCoords;
-        ballMovement.y = yCoords;
-        ballMovement.lastAngle = angle
-        ballMovement.running = true
-        ballMovement.repeat = true
-
-        balls.push(ball)
-
-    }
-
     Timer {
-
 
         property double x : 0
         property double y : 0
@@ -95,12 +68,15 @@ Item {
         id: ballMovement
         interval: repeatTime
 
+        // Wall collision detection each frame
         onTriggered: {
 
-            currentBall.x += x
-            currentBall.y += y
-            currentBall.rotation += 0.1
+            if(allowMovement) {
 
+                currentBall.x += x
+                currentBall.y += y
+                currentBall.rotation += 0.1
+            }
             var xCenter = window.width / 2
 
 
@@ -113,8 +89,6 @@ Item {
 
 
                 lastAngle = newAngle1
-
-
             }
 
             else if(currentBall.y <= 0) {
@@ -126,7 +100,6 @@ Item {
 
 
                 lastAngle = newAngle2
-
             }
 
             else if(currentBall.x >= window.width-currentBall.width) {
@@ -137,9 +110,6 @@ Item {
                 y = -Math.sin(Math.PI/180*newAngle3)
 
                 lastAngle = newAngle3
-
-
-
             }
 
             else if(currentBall.y >= window.height-currentBall.height) {
@@ -150,111 +120,11 @@ Item {
                 y = -Math.sin(Math.PI/180*newAngle4)
 
                 lastAngle = newAngle4
-
-
             }
 
-
-
         }
     }
 
-    Timer {
-
-        property int current: 4
-
-        id: restart
-        running: false
-        repeat: true
-        interval: 10
-
-        onTriggered: {
-
-            if(current == 4)
-                player.speed = 0.25
-
-
-            respawnTitle.visible = true
-            restart.interval = 1000;
-
-            if(current == 1) {
-
-
-                current = 4
-                running = false
-                interval = 10
-
-                for(var a = 0; a<game.balls.length; a++)
-                    game.balls[a].ballMovement.running = true
-
-
-                respawnTitle.visible = false
-
-            }
-
-            else     current--
-
-        }
-    }
-
-    Rectangle {
-
-        id: respawnTitle
-        visible: false
-        x: window.width / 2
-
-        Text {
-            id: name
-
-            color: "green"
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.bold: true
-            y: window.height / 2 -50
-
-            font.pointSize: 40
-
-            text: qsTr("Respawn in "+restart.current)
-        }
-    }
-
-    Rectangle {
-
-        id: endTitle
-        visible: false
-        width: window.width
-        height: window.height
-        color: "black"
-
-        Text {
-
-            id: endName
-            visible: true
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.bold: true
-            y: window.height / 2 - height
-
-            font.pointSize: 60
-
-            color: "red"
-            text: qsTr("Game Over !")
-
-        }
-
-        Text {
-
-            id: endNameScore
-            visible: true
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.bold: true
-            y: window.height / 2 + height / 2
-
-            font.pointSize: 20
-            color: "green"
-            text: qsTr("Your score is "+game.gameTimer.minutes+" : "+game.gameTimer.seconds)
-        }
-    }
 
     WallDetector {
 
@@ -264,6 +134,11 @@ Item {
     CollisionDetector {
 
         id: coll
+    }
+
+    BallManager {
+
+        id: ballManage
     }
 
 

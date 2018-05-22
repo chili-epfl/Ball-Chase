@@ -4,11 +4,14 @@ import QtQuick 2.0
 Item {
 
     signal start
-    property int lifeAmount : 500
-    property Repeater repeater: repeat
+    property int lifeAmount : 2
+    property Repeater repeater: ballSpawner
     property Rectangle chrono : chrono
     property Rectangle lifesRec : lifesRectangle
+    property Rectangle respawnTitle : respawnTitle
+    property Rectangle endTitle : endTitle
     property Timer gameTimer : gameTimer
+    property Timer restart : restart
     property int next : 0
     property list<MovingBall> balls
 
@@ -20,28 +23,27 @@ Item {
 
     Repeater{
 
-        id: repeat
+        id: ballSpawner
         model: 4
 
-        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 12;rad: 100}
+        MovingBall {size: 80+index; colour: "blue";repeatTime: 5 + index / 10;rad: 100}
 
     }
 
     function activeBalls() {
 
-        for(var a = 0; a < repeat.model ; a++) {
+        for(var a = 0; a < ballSpawner.model ; a++) {
 
-            repeat.itemAt(a).launch(balls, repeat.itemAt(a))
-            repeat.itemAt(a).current.visible = true
+            ballManage.launch(ballSpawner.itemAt(a))
+            ballSpawner.itemAt(a).current.visible = true
 
         }
 
     }
 
-
     Rectangle {
 
-        property Text text : name
+        property Text text : chronoText
 
         id: chrono
         visible: true
@@ -49,10 +51,10 @@ Item {
         height: 30
 
         Text {
+            id: chronoText
             font.bold: true
             font.pointSize: 20
             color: "purple"
-            id: name
             text: qsTr(gameTimer.minutes+" : "+gameTimer.seconds)
         }
     }
@@ -66,17 +68,15 @@ Item {
         height: 30
 
         x: window.width - width * 1.23
+
         Text {
-            id: lifes
+
             color: "orange"
             font.bold: true
             font.pointSize: 20
             text: qsTr("Lifes left : "+lifeAmount)
         }
     }
-
-
-
 
     Timer {
 
@@ -95,37 +95,34 @@ Item {
             var colors = ["red","green","purple","yellow","blue","orange","pink","gray"]
 
             pointer++
+            pointerColor++
 
             if(seconds == 59) {
                 seconds = 0
                 minutes++
             }
 
-            else seconds++
+            else
+                seconds++
 
-            if(pointer > repeat.model -1) {
+            if(pointer > ballSpawner.model -1)
                 pointer = 0
-
-            }
-
-            pointerColor++
 
             if(pointerColor == colors.length)
                 pointerColor = 0
 
-            repeat.itemAt(pointer).current.color = colors[pointerColor]
-
             if(minutes == 0 && seconds == 1)
-
                 event.initPlayer(player)
+
+            ballSpawner.itemAt(pointer).current.color = colors[pointerColor]
+
 
 
             var eventNumber;
 
             if((seconds + 3) % 30 == 0) {
 
-                console.log("New Event")
-                eventNumber = 0//Math.floor(Math.random() * 4);
+                eventNumber = Math.floor(Math.random() * 4);
                 player.info.color = "blue"
 
                 switch(eventNumber) {                  
@@ -133,7 +130,6 @@ Item {
                 case 0:
 
                     player.info.text = "Of course this game is easy. Want more difficulty ? Sure. One ball more !"
-
                     event.addBall()
                     break
 
@@ -155,16 +151,105 @@ Item {
                     event.moon()
                     break;
                 }
+            }
+        }
+    }
 
+    Rectangle {
+
+        id: respawnTitle
+        visible: false
+        x: window.width / 2
+
+        Text {
+
+            color: "green"
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            y: window.height / 2 -50
+
+            font.pointSize: 40
+
+            text: qsTr("Respawn in "+restart.current)
+        }
+    }
+
+
+    Rectangle {
+
+        id: endTitle
+        visible: false
+        width: window.width
+        height: window.height
+        color: "black"
+
+        Text {
+
+            id: endName
+            visible: true
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            y: window.height / 2 - height
+
+            font.pointSize: 60
+
+            color: "red"
+            text: qsTr("Game Over !")
+        }
+
+        Text {
+
+            id: endNameScore
+            visible: true
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            y: window.height / 2 + height / 2
+
+            font.pointSize: 20
+            color: "green"
+            text: qsTr("Your score is "+game.gameTimer.minutes+" : "+game.gameTimer.seconds)
+        }
+    }
+
+    Timer {
+
+        property int current: 4
+
+        id: restart
+        running: false
+        repeat: true
+        interval: 10
+
+        onTriggered: {
+
+            respawnTitle.visible = true
+            restart.interval = 1000;
+
+            if(current == 1) {
+
+                current = 4
+                running = false
+                interval = 10
+
+                ballManage.allowMoves()
+
+                respawnTitle.visible = false
             }
 
-
+            else
+                current--
         }
     }
 
     EventManager {
 
         id:event
+    }
+
+    BallManager {
+
+        id: ballManage
     }
 
 

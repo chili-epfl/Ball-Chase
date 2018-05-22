@@ -16,7 +16,6 @@ Item {
 
         waitBall.running = true
 
-
     }
 
     MovingBall {id:one; size: 65; colour: "blue"; repeatTime: 7; rad: 100}
@@ -52,27 +51,6 @@ Item {
 
     Timer {
 
-        id: waitMoon
-        repeat: false
-        interval: 3000
-        onTriggered: {
-
-            var event = 3
-
-            moon.current.x = window.width / 2 - moon.current.width
-            moon.current.y = window.height / 2 - moon.current.height
-
-            timerEvent.running = true
-            timerEvent.event = event
-
-            moon.launch(game.balls, moon)
-            moon.current.visible = true
-        }
-
-    }
-
-    Timer {
-
         id: waitMulti
         repeat: false
         interval: 3000
@@ -98,9 +76,9 @@ Item {
             extraTwo.current.visible = true
             extraThree.current.visible = true
 
-            extraOne.launch(game.balls, extraOne)
-            extraTwo.launch(game.balls, extraTwo)
-            extraThree.launch(game.balls, extraThree)
+            ballManage.launch(extraOne)
+            ballManage.launch(extraTwo)
+            ballManage.launch(extraThree)
         }
     }
 
@@ -117,47 +95,47 @@ Item {
 
             switch(pointer) {
 
-
+            // this code has been done like this because of a problem when using Qt.createComponent
             case 0:
 
                 one.current.visible = true
-                one.launch(game.balls, one)
+                ballManage.launch(one)
                 break
 
             case 1:
 
                 two.current.visible = true
-                two.launch(game.balls, two)
+                ballManage.launch(two)
                 break
 
             case 2:
 
                 three.current.visible = true
-                three.launch(game.balls, three)
+                ballManage.launch(three)
                 break
 
             case 3:
 
                 four.current.visible = true
-                four.launch(game.balls, four)
+                ballManage.launch(four)
                 break
 
             case 4:
 
                 five.current.visible = true
-                five.launch(game.balls, five)
+                ballManage.launch(five)
                 break
 
             case 5:
 
                 six.current.visible = true
-                six.launch(game.balls, six)
+                ballManage.launch(six)
                 break
 
             case 6:
 
                 seven.current.visible = true
-                seven.launch(game.balls, seven)
+                ballManage.launch(seven)
                 break
 
             default:
@@ -187,6 +165,27 @@ Item {
 
                 game.balls[a].size += 40
             }
+        }
+
+    }
+
+    Timer {
+
+        id: waitMoon
+        repeat: false
+        interval: 3000
+        onTriggered: {
+
+            var event = 3
+
+            moon.current.x = window.width / 2 - moon.current.width
+            moon.current.y = window.height / 2 - moon.current.height
+
+            timerEvent.running = true
+            timerEvent.event = event
+
+            ballManage.launch(moon)
+            moon.current.visible = true
         }
 
     }
@@ -266,11 +265,8 @@ Item {
         moon.current.x = 900000
     }
 
+    BallManager {
 
-
-
-
-
-
-
+        id: ballManage
+    }
 }
