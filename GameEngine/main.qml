@@ -4,7 +4,6 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow {
 
-
     id: window
     visible: true
     width: 850
@@ -33,7 +32,6 @@ ApplicationWindow {
 
         }
 
-
         x: window.width / 2 - width/2
         y: window.height / 2 - height
 
@@ -52,12 +50,12 @@ ApplicationWindow {
         visible: true
 
         Text {
+
             id: optionText
             anchors.horizontalCenter: parent.horizontalCenter
             font.pointSize: 30
             text: "Options"
             color: "black"
-
         }
 
         x: window.width / 2 - width/2
@@ -119,10 +117,7 @@ ApplicationWindow {
 
                 optionsColor.color = "black"
                 playColor.color = "black"
-
-
             }
-
         }
 
         Button {
@@ -151,9 +146,7 @@ ApplicationWindow {
                 optionsColor.color = "white"
                 playColor.color = "white"
 
-
             }
-
         }
     }
 
@@ -166,16 +159,16 @@ ApplicationWindow {
             startTimer()
             activeBalls()
 
-            playButton.width = 0
-            options.width = 0
-            optionText.visible = false
-            playText.visible = false
-
-            player.focus = true
-            player.body.visible = true
-
+            disableMenu();
         }
+    }
 
+    function disableMenu() {
+
+        playButton.width = 0
+        options.width = 0
+        optionText.visible = false
+        playText.visible = false
 
     }
 
@@ -184,7 +177,6 @@ ApplicationWindow {
         id: player
         visible: true
         focus: true
-
     }
 
 }

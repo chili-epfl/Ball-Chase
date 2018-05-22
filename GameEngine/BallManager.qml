@@ -20,6 +20,10 @@ Item {
             game.balls[a].allowMovement = true
     }
 
+    /**
+      *@param ball : The MovingBall that has to be launched
+      */
+
     function launch(ball) {
 
         if(restart.running == false)
