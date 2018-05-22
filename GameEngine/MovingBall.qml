@@ -79,14 +79,12 @@ Item {
             }
             var xCenter = window.width / 2
 
-
             if(currentBall.x <= 0){
 
                 var newAngle1 = wall.findFromLeft(lastAngle)
 
                 x = Math.cos(Math.PI/180*newAngle1)
                 y = -Math.sin(Math.PI/180*newAngle1)
-
 
                 lastAngle = newAngle1
             }
