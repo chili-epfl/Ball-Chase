@@ -1,8 +1,6 @@
 # Ball Chase
 
-**Copyrights :**
-
-- To Complete ?
+**Game created by Antoine TRAN**
 
 **Information**
 
