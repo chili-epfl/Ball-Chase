@@ -2,6 +2,8 @@ import QtQuick 2.0
 
 Item {
 
+    // This file has an optimization problem : Qt.createComponent could not be used for some reasons
+
     property int pointer : 0
 
     function initPlayer(player) {
@@ -31,7 +33,6 @@ Item {
     function multiBall() {
 
         waitMulti.running = true
-
     }
 
     MovingBall {id:extraOne; size: 80; colour: "red"; repeatTime: 5; rad: 140}
@@ -97,7 +98,6 @@ Item {
 
             switch(pointer) {
 
-            // this code has been done like this because of a problem when using Qt.createComponent
             case 0:
 
                 one.current.visible = true

@@ -178,5 +178,4 @@ ApplicationWindow {
         visible: true
         focus: true
     }
-
 }

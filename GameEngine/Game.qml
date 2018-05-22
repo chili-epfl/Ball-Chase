@@ -6,7 +6,7 @@ Item {
     signal start
     property int lifeAmount : 2
     property Repeater repeater: ballSpawner
-    property Rectangle chrono : chrono
+    property Rectangle chrono : chronoRectangle
     property Rectangle lifesRec : lifesRectangle
     property Rectangle respawnTitle : respawnTitle
     property Rectangle endTitle : endTitle
@@ -14,12 +14,6 @@ Item {
     property Timer restart : restart
     property int next : 0
     property list<MovingBall> balls
-
-    function startTimer() {
-
-        gameTimer.running = true
-
-    }
 
     Repeater{
 
@@ -36,16 +30,19 @@ Item {
 
             ballManage.launch(ballSpawner.itemAt(a))
             ballSpawner.itemAt(a).current.visible = true
-
         }
+    }
 
+    function startTimer() {
+
+        gameTimer.running = true
     }
 
     Rectangle {
 
         property Text text : chronoText
 
-        id: chrono
+        id: chronoRectangle
         visible: true
         width: 80
         height: 30
@@ -122,36 +119,41 @@ Item {
 
             if((seconds + 3) % 30 == 0) {
 
-                eventNumber = Math.floor(Math.random() * 4);
-                player.info.color = "blue"
-
-                switch(eventNumber) {                  
-
-                case 0:
-
-                    player.info.text = "Of course this game is easy. Want more difficulty ? Sure. One ball more !"
-                    event.addBall()
-                    break
-
-                case 1:
-
-                    player.info.text = "Don't touch them, red balls are hot. Multi Balls !"
-
-                    event.multiBall()
-                    break
-
-                case 2:
-
-                    player.info.text = "I hope you don't usually eat what these balls do. Fat baaaaaaalls !"
-                    event.fatBalls()
-                    break
-
-                case 3:
-                    player.info.text = "Want to be an astronaut ? Just ask. Here is a moon"
-                    event.moon()
-                    break;
-                }
+                chooseNewEvent()
             }
+        }
+    }
+
+    function chooseNewEvent() {
+
+        eventNumber = Math.floor(Math.random() * 4);
+        player.info.color = "blue"
+
+        switch(eventNumber) {
+
+        case 0:
+
+            player.info.text = "Of course this game is easy. Want more difficulty ? Sure. One ball more !"
+            event.addBall()
+            break
+
+        case 1:
+
+            player.info.text = "Don't touch them, red balls are hot. Multi Balls !"
+
+            event.multiBall()
+            break
+
+        case 2:
+
+            player.info.text = "I hope you don't usually eat what these balls do. Fat baaaaaaalls !"
+            event.fatBalls()
+            break
+
+        case 3:
+            player.info.text = "Want to be an astronaut ? Just ask. Here is a moon"
+            event.moon()
+            break;
         }
     }
 
@@ -173,7 +175,6 @@ Item {
             text: qsTr("Respawn in "+restart.current)
         }
     }
-
 
     Rectangle {
 
@@ -251,7 +252,4 @@ Item {
 
         id: ballManage
     }
-
-
-
 }

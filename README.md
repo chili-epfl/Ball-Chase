@@ -4,9 +4,9 @@
 
 **Information**
 
-- Game developped using QML components, according to Qt 5.9
+- Created using QML components of Qt 5.9
 - Build system : Qmake
-- Extern library : Cellulo 1.0 (Website : https://chili.epfl.ch/)
+- Extern library : Cellulo 1.0
 
 **Set up**
 
@@ -24,7 +24,7 @@ Each 30 seconds a new event appear, here is the list of all possible events :
 
 *Note : each event lasts 20 seconds*
 
-- "One more" : a new ball appear. Warning ! This ball will never disappear
+- "One more" : a new ball appears. Warning ! This ball will never disappear
 
 - "Fat balls" : each ball grows of 40 units
 

@@ -28,7 +28,7 @@ Item {
             if(lifeAmount == 0) {
 
                 gameTimer.running = false
-                chrono.visible = false
+                chronoRectangle.visible = false
                 lifesRectangle.visible = false
                 endTitle.visible = true
                 player.body.visible = false
@@ -138,6 +138,4 @@ Item {
 
         id: ballManage
     }
-
-
 }
