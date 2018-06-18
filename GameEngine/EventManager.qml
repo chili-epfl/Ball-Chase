@@ -22,8 +22,8 @@ Item {
 
     }
 
-    MovingBall {id:one; size: 65; colour: "blue"; repeatTime: 7; rad: 100}
-    MovingBall {id:two; size: 70; colour: "blue"; repeatTime: 7; rad: 100}
+    MovingBall {id:one; size: 75; colour: "blue"; repeatTime: 7; rad: 100}
+    MovingBall {id:two; size: 75; colour: "blue"; repeatTime: 7; rad: 100}
     MovingBall {id:three; size: 75; colour: "blue"; repeatTime: 6; rad: 100}
     MovingBall {id:four; size: 80; colour: "blue"; repeatTime: 6; rad: 100}
     MovingBall {id:five; size: 85; colour: "blue"; repeatTime: 5; rad: 100}
@@ -180,8 +180,8 @@ Item {
 
             var event = 3
 
-            moon.current.x = window.width / 2 - moon.current.width
-            moon.current.y = window.height / 2 - moon.current.height
+            moon.current.x = window.width / 2 - moon.current.width / 2
+            moon.current.y = window.height / 2 - moon.current.height / 2
 
             timerEvent.running = true
             timerEvent.event = event

@@ -23,14 +23,14 @@ Item {
 
             ballManage.stopMoves()
 
-            lifeAmount--
+            game.lifeAmount--
 
             if(lifeAmount == 0) {
 
-                gameTimer.running = false
-                chronoRectangle.visible = false
-                lifesRectangle.visible = false
-                endTitle.visible = true
+                game.gameTimer.running = false
+                game.chrono.visible = false
+                game.lifesRec.visible = false
+                game.endTitle.visible = true
                 player.body.visible = false
 
                 ballManage.hideAll()
@@ -61,6 +61,7 @@ Item {
 
     Timer {
 
+        property double bonus : 0
         property double x : 0
         property double y : 0
         property double lastAngle : 0
@@ -71,12 +72,15 @@ Item {
         // Wall collision detection each frame
         onTriggered: {
 
+            bonus+= 0.000008
+
             if(allowMovement) {
 
-                currentBall.x += x
-                currentBall.y += y
+                currentBall.x += x * (1 + bonus)
+                currentBall.y += y * (1 + bonus)
                 currentBall.rotation += 0.1
             }
+
             var xCenter = window.width / 2
 
             if(currentBall.x <= 0){

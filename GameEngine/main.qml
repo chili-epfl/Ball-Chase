@@ -6,7 +6,7 @@ ApplicationWindow {
 
     id: window
     visible: true
-    width: 850
+    width: 980
     height: 850
     title: qsTr("Ball Chase")
 

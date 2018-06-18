@@ -4,7 +4,7 @@ import QtQuick 2.0
 Item {
 
     signal start
-    property int lifeAmount : 2
+    property int lifeAmount : 5
     property Repeater repeater: ballSpawner
     property Rectangle chrono : chronoRectangle
     property Rectangle lifesRec : lifesRectangle
@@ -108,14 +108,12 @@ Item {
             if(pointerColor == colors.length)
                 pointerColor = 0
 
-            if(minutes == 0 && seconds == 1)
+            if(minutes == 0 && seconds == 1) {
                 event.initPlayer(player)
+                player.robot.setCasualBackdriveAssistEnabled(true)
+            }
 
             ballSpawner.itemAt(pointer).current.color = colors[pointerColor]
-
-
-
-            var eventNumber;
 
             if((seconds + 3) % 30 == 0) {
 
@@ -126,7 +124,7 @@ Item {
 
     function chooseNewEvent() {
 
-        eventNumber = Math.floor(Math.random() * 4);
+        var eventNumber = Math.floor(Math.random() * 4);
         player.info.color = "blue"
 
         switch(eventNumber) {

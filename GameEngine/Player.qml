@@ -14,8 +14,8 @@ Item {
     property double angle : 90
     property double speed : 0.25
 
-    property int sheetSize : 250
-    property double coeff : window.width / sheetSize
+    property int sheetSize : 500
+    property double coeff : controllPannel.width / sheetSize
 
     focus: true
 
@@ -32,26 +32,14 @@ Item {
     }
 
 
-    ApplicationWindow {
+    Rectangle {
 
-        id: window
-
-        visible: true
+        id: controllPannel
+        visible: robot.connectionStatus !== CelluloBluetoothEnums.ConnectionStatusConnected
         width: 940
-        height: 300
-        title: qsTr("Robot Connecting Pannel")
-
-
-        Text {
-
-            id: name
-            visible: true
-            text: qsTr("Welcome to the robot interface !")
-            font.bold: true
-            font.pointSize: 20
-            x : window.width / 2 - width / 2
-            y : window.height / 2 - 40
-        }
+        height: 500
+        x: window.width / 2 - width / 2
+        y: window.height / 2 - 100
 
         Text {
 
@@ -64,19 +52,21 @@ Item {
             font.pointSize: 15
 
             color: "green"
-
-            x : window.width / 2 - width / 2
-            y : window.height / 2 + 20
+            x : controllPannel.width / 2 - width / 2
+            y : controllPannel.height / 2 + 130
         }
 
         GroupBox {
+
             title: "Robot Address"
             width: 940
 
             Column{
+                visible: parent
                 spacing: 5
 
                 MacAddrSelector{
+                    visible: parent
                     id: macAddrSelector
                     addresses: QMLCache.read("addresses").split(",")
                     onConnectRequested: {
@@ -88,6 +78,8 @@ Item {
                 }
 
                 Row{
+                    visible: parent
+
                     spacing: 5
 
                     BusyIndicator{
@@ -114,6 +106,8 @@ Item {
 
         CelluloBluetoothScanner{
             id: scanner
+            visible: parent
+
             onRobotDiscovered: {
                 var newAddresses = macAddrSelector.addresses;
                 if(newAddresses.indexOf(macAddr) < 0){
@@ -140,7 +134,6 @@ Item {
                 if(connectionStatus === CelluloBluetoothEnums.ConnectionStatusConnected) {
                     // If yes, make the title green
                     setVisualEffect(CelluloBluetoothEnums.VisualEffectConstAll, "green", 0);
-
                 }
 
                 console.log("Info : Attempt to change robot's statut");
@@ -148,7 +141,7 @@ Item {
 
             onPoseChanged: {
 
-                body.x = robot.x * coeff
+                body.x = robot.x > 500 ? body.x : robot.x * coeff
                 body.y = robot.y * coeff
             }
         }

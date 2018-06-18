@@ -27,14 +27,14 @@ Item {
     function launch(ball) {
 
         if(restart.running == false)
-            allowMovement = true
+            ball.allowMovement = true;
 
         var angle = Math.random(10) * 360
-        xCoords = Math.cos(Math.PI*angle/180)
-        yCoords = -Math.sin(Math.PI*angle/180)
+        ball.xCoords = Math.cos(Math.PI*angle/180)
+        ball.yCoords = -Math.sin(Math.PI*angle/180)
 
-        ball.ballMovement.x = xCoords;
-        ball.ballMovement.y = yCoords;
+        ball.ballMovement.x = ball.xCoords;
+        ball.ballMovement.y = ball.yCoords;
         ball.ballMovement.lastAngle = angle
         ball.ballMovement.running = true
         ball.ballMovement.repeat = true
