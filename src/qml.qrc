@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>core/main.qml</file>
+        <file>core/Game.qml</file>
+        <file>ball/MovingBall.qml</file>
+        <file>util/WallDetector.qml</file>
+        <file>util/CollisionDetector.qml</file>
+        <file>core/Player.qml</file>
+        <file>core/EventManager.qml</file>
+        <file>ball/BallManager.qml</file>
+    </qresource>
+</RCC>
